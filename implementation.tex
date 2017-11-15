@@ -1,5 +1,41 @@
-\chapter{Implementierung}
+\section{Implementierung}
+Im folgenden Kapitel wird die Implementierung der Schnittstelle n\"aher betrachtet. 
+Zun\"achst wird die bestehende Schnittstelle analysiert und es wird definiert, 
+welche \"Anderungen durchzuf\"uhren sind. Anschließend wird die Implementierung 
+der \"Anderungen n\"aher untersucht, bevor im folgenden Kapitel die Ergebnisse betrachtet 
+und ausgewertet werden.
 
-\section{Ausgangslage}
+\subsection{Ausgangslage}
+Wie in der Einleitung beschrieben, sollte eine bestehende Softwarel\"osung abge\"andert werden.
+In der bestehenden L\"osung wurde die verteilte Ausf\"uhrung der CUDA-Berechnungen \"uber SOAP-Requests 
+eingeleitet, welche die Bilddaten als Array von Integern beinhalteten. Die prim\"aren Nachteile
+der \"Ubertragung der Bilddaten als Array von Integern liegen darin, dass zum Einen ein erh\"ohter
+Netwerk-Traffic anf\"allt, zum Anderen auch ein nicht unerheblicher Aufwand durch das Auswerten
+der XML-Daten entsteht.\\
+Der erh\"ohte Netzwerk-Traffic l\"asst sich auf die Struktur von XML-Dokumenten
+zur\"uckf\"uhren, welche pro Datum ein \"offnendes und ein schließendes Tag ben\"otigen. Da es sich bei den 
+Daten um ein Graustufen handelt, werden Integer \"ubertragen, die im Allgemeinen nicht mehr als drei
+Stellen beinhalten. In diesem Fall bestehen die Tags jeweils aus mehr Zeichen als der zu \"ubertragende
+Wert. Hierdurch entsteht ein nicht zu vern\"achl\"assigender Overhead, welcher bei einer \"Ubertragung als
+Base64-Codiertes Datum minimiert wird, da die Tags nur ein mal pro Bild \"ubertragen werden m\"ussen.\\
+Der Aufwand, welcher durch die Auswertung der XML-Daten entsteht, ist daher nicht unerheblich, da zum einen
+die Daten als Strings vorliegen, welche in Integer konvertiert werden m\"ussen. Zum anderen jedoch bei 
+SOAP-Schnittstellen im Allgemeinen auch eine Validierung der Daten vorgenommen wird. Aufgrunddessen sollte
+klar sein, warum die \"Ubertragung der Bilder als Arrays einzelner Integer einen höheren Aufwand erzeugt, als die 
+\"Ubertragung zweier Base64-Codierter Strings.
 
-\section{Durchführung}
+\subsection{Durchf\"uhrung}
+In diesem Abschnitt wird die Durchf\"uhrung der im vorherigen Kapitel beschriebenen \"Anderungen erkl\"art.
+Die vorzunehmenden \"Anderungen lassen sich in zwei Teilschritte unterteilen. Zum einen die Anpassung der
+SOAP-Schnittstelle und zum anderen die Konvertierung der Bilddaten in Base64.\\
+Um die SOAP-Schnittstelle anzupassen wurde die WSDL dahingehend geändert, dass die Bilder nun nicht mehr als 
+Arrays einzelner Pixel \"ubertragen werden, sondern als einzelner String. Auf Basis der ge\"anderten WSDL wurden
+unter Verwendung des Tools gsoap Client- und Serverseitig Code erzeugt, welcher die Abhandlung des SOAP-Prozesses
+erm\"oglicht.\\
+Um die Bilder als String zu \"ubertragen, m\"ussen diese noch in das Base64-Format konvertiert werden. Hierzu 
+wurde eine einfach Konvertierungsfunktion implementiert. Diese Funktion liefert die bin\"aren Eingabedaten als
+Base64-String zur\"uck. Bei der \"Ubertragung wird dieser String zusammen mit der Gr\"o{\ss}e des Originalbildes
+versandt. Die Serverseite muss nun auf Basis der Originalgr\"o{\ss}e die Gr\"o{\ss}e der Daten als Base64-String 
+errechnen und kann anschlie{\ss}end unter Zuhilfenahme der neu errechneten Base64-Gr\"o{\ss}e wieder ein Bild erzeugen.
+Diese Bilder werden dann miteinander verglichen und die Ergebnisse werden weiterhin als Array von Integern an den 
+Client zur\"uck gesandt.
