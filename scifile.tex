@@ -35,7 +35,6 @@
 %The next command sets up an environment for the abstract to your paper.
 
 \newenvironment{sciabstract}{
-In der hier vorliegenden Ausarbeitung wird die Erzeugung von Disparit\"atsbildern von zwei Stereoskopischen Bildern \"uber ein verteiltes Netzwerk betrachtet. Mittels CUDA Programmiertechnik wird die Berechnung auf mehrere Grafikprozessoren aufgeteilt. Dieses Paper betrachtet die Effizienz des Systems, wenn die Daten\"ubertragung zwischen den Rechnern mittels einer Base64-Verschl\"usselung stattfindet.
 \begin{quote} \bf}
 {\end{quote}}
 
@@ -98,7 +97,7 @@ In der hier vorliegenden Ausarbeitung wird die Erzeugung von Disparit\"atsbilder
 
 % Double-space the manuscript.
 
-\baselineskip24pt
+\baselineskip18pt
 
 % Make the title.
 
@@ -109,19 +108,16 @@ In der hier vorliegenden Ausarbeitung wird die Erzeugung von Disparit\"atsbilder
 % Place your abstract within the special {sciabstract} environment.
 
 \begin{sciabstract}
-  This document presents a number of hints about how to set up your
-  {\it Science\/} paper in \LaTeX\ .  We provide a template file,
-  \texttt{scifile.tex}, that you can use to set up the \LaTeX\ source
-  for your article.  An example of the style is the special
-  \texttt{\{sciabstract\}} environment used to set up the abstract you
-  see here.
+In der hier vorliegenden Ausarbeitung wird die Erzeugung von Disparit\"atsbildern von zwei Stereoskopischen Bildern \"uber ein verteiltes Netzwerk betrachtet. Mittels CUDA Programmiertechnik wird die Berechnung auf mehrere Grafikprozessoren aufgeteilt. Dieses Paper betrachtet die Effizienz des Systems, wenn die Daten\"ubertragung zwischen den Rechnern mittels einer Base64-Verschl\"usselung stattfindet.
 \end{sciabstract}
 
-\include{introduction}
+\newpage
 
-\include{implementation}
+\input{introduction}
 
-\include{messergebnisse}
+\input{implementation}
+
+\input{messergebnisse}
 
 % Your references go at the end of the main text, and before the
 % figures.  For this document we've used BibTeX, the .bib file
@@ -130,54 +126,8 @@ In der hier vorliegenden Ausarbeitung wird die Erzeugung von Disparit\"atsbilder
 % style.
 
 
-\bibliography{scibib}
+%\bibliography{scibib}
 
-\bibliographystyle{Science}
-
-
-
-% Following is a new environment, {scilastnote}, that's defined in the
-% preamble and that allows authors to add a reference at the end of the
-% list that's not signaled in the text; such references are used in
-% *Science* for acknowledgments of funding, help, etc.
-
-\begin{scilastnote}
-\item We've included in the template file \texttt{scifile.tex} a new
-environment, \texttt{\{scilastnote\}}, that generates a numbered final
-citation without a corresponding signal in the text.  This environment
-can be used to generate a final numbered reference containing
-acknowledgments, sources of funding, and the like, per {\it Science\/}
-style.  Along those lines, we'd like to thank readers of this document
-for their attention, and invite them to address any questions to
-Stewart Wills, at swills@aaas.org.
-\end{scilastnote}
-
-
-
-
-% For your review copy (i.e., the file you initially send in for
-% evaluation), you can use the {figure} environment and the
-% \includegraphics command to stream your figures into the text, placing
-% all figures at the end.  For the final, revised manuscript for
-% acceptance and production, however, PostScript or other graphics
-% should not be streamed into your compliled file.  Instead, set
-% captions as simple paragraphs (with a \noindent tag), setting them
-% off from the rest of the text with a \clearpage as shown  below, and
-% submit figures as separate files according to the Art Department's
-% instructions.
-
-
-\clearpage
-
-\noindent {\bf Fig. 1.} Please do not use figure environments to set
-up your figures in the final (post-peer-review) draft, do not include graphics in your
-source code, and do not cite figures in the text using \LaTeX\
-\verb+\ref+ commands.  Instead, simply refer to the figure numbers in
-the text per {\it Science\/} style, and include the list of captions at
-the end of the document, coded as ordinary paragraphs as shown in the
-\texttt{scifile.tex} template file.  Your actual figure files should
-be submitted separately.
-
-
+%\bibliographystyle{Science}
 
 \end{document}
